@@ -16,3 +16,14 @@
  *    ♥♥♥♥
  *    END PROGRAM
  */
+"use strict";
+
+const aantal = parseInt(
+  prompt("Hoeveel regels met hartjes moeten er afgeprint worden?")
+);
+
+console.log("START PROGRAM");
+for (let i = 1; i <= aantal; i++) {
+  console.log("♥".repeat(i));
+}
+console.log("END PROGRAM");
