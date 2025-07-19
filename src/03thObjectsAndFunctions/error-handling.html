@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Error handling</title>
+  </head>
+  <body>
+    <h1>Error handling</h1>
+    <script>
+      try {
+        const myStudent = JSON.parse('{"name":"jan","age":15}');
+        console.log('MyStudent', myStudent);
+        const myObject = JSON.parse('{ bad json o_O }');
+        console.log('MyObject', myObject);
+      } catch (err) {
+        // handle the exception here
+        alert(err.name); // SyntaxError
+        alert(err.message); // Unexpected token b in JSON at position 2
+      }
+    </script>
+  </body>
+</html>
