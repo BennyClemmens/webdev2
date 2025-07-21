@@ -2,7 +2,8 @@
 // Importeer Blog uit het bestand Blog.js
 // Exporteer de klasse GroupBlog
 // ===================================================================
-class GroupBlog extends Blog {
+import Blog from "./Blog.js";
+export default class GroupBlog extends Blog {
   #authors = [];
   constructor(creator, ...authors) {
     super(creator);

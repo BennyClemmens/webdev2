@@ -11,7 +11,7 @@ class BlogEntry {
   }
 
   set #body(value) {
-    this.#entryBody = value || 'This entry is work in progress';
+    this.#entryBody = value || "This entry is work in progress";
   }
 
   get date() {
@@ -30,15 +30,15 @@ class BlogEntry {
 }
 
 // Voorbeelden gebruik BlogEntry
-// const aBlogEntry = new BlogEntry('This is a brand new blog entry');
-// let word = 'hello';
-// for (const word of ['hello', 'brand', 'BLOG']) {
-//   console.log(
-//     `aBlogEntry ${
-//       aBlogEntry.contains(word) ? 'contains' : 'does not contain'
-//     } the word "${word}".`
-//   );
-// }
+const aBlogEntry = new BlogEntry("This is a brand new blog entry");
+let word = "hello";
+for (const word of ["hello", "brand", "BLOG"]) {
+  console.log(
+    `aBlogEntry ${
+      aBlogEntry.contains(word) ? "contains" : "does not contain"
+    } the word "${word}".`
+  );
+}
 
 // ========================================================================
 // Kopieer hieronder de klasse Blog uit blog02.js en pas de klasse aan.
@@ -51,13 +51,51 @@ class BlogEntry {
 //   index retourneert. De methode retourneert undefined indien op
 //   index geen entry aanwezig is.
 // ========================================================================
+class Blog {
+  #creator; // maak de property entries private
+  #entries = [];
+
+  get creator() {
+    // voorzie een publieke getter voor de property creator.
+    return this.#creator;
+  }
+
+  set creator(value) {
+    // voorzie een publieke setter voor de property creator.
+    this.#creator = value || "Anonymous"; //DR_CREATOR
+  }
+
+  constructor(creator) {
+    this.creator = creator; // roep vanuit de constructor de gemaakte setter aan
+  }
+
+  get nrOfEntries() {
+    return this.#entries.length;
+  }
+
+  contains(searchText) {
+    //return this.#entries.some((entry) => entry.contains(searchText)); // some nog niet gezien ...
+    for (const entry of this.#entries) {
+      if (entry.contains(searchText)) return true;
+    }
+    return false;
+  }
+
+  addEntry(body) {
+    this.#entries.unshift(new BlogEntry(body)); // voeg de nieuwe entry vooraan toe
+  }
+
+  getEntry(index) {
+    return this.#entries[index];
+  }
+}
 
 // Test je code:
-const blog = new Blog('Nafi Thiam');
-blog.addEntry('So excited I received the World Athlete of the Year award!');
-blog.addEntry('This is the story of my back-to-back Olympic gold medal.');
+const blog = new Blog("Nafi Thiam");
+blog.addEntry("So excited I received the World Athlete of the Year award!");
+blog.addEntry("This is the story of my back-to-back Olympic gold medal.");
 console.log(blog.nrOfEntries); // 2
-console.log(blog.contains('athlete')); // true
-console.log(blog.contains('heptathlete')); // false
+console.log(blog.contains("athlete")); // true
+console.log(blog.contains("heptathlete")); // false
 console.log(blog.getEntry(0)?.body); // This is the story of my back-to-back Olympic gold medal.
 console.log(blog.getEntry(5)?.body); // undefined

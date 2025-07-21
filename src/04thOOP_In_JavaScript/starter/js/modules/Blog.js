@@ -2,8 +2,9 @@
 // Importeer BlogEntry en TaggedBlogEntry uit de respectievelijke bestanden
 // Exporteer de klasse Blog
 // ===================================================================
-
-class Blog {
+import BlogEntry from "./BlogEntry.js";
+import TaggedBlogEntry from "./TaggedBlogEntry.js";
+export default class Blog {
   static maxEntries = 3;
   #entries = [];
   #creator;
@@ -17,7 +18,7 @@ class Blog {
   }
 
   set creator(value) {
-    this.#creator = value ? value : 'Anonymous';
+    this.#creator = value ? value : "Anonymous";
   }
 
   get nrOfEntries() {
@@ -56,5 +57,3 @@ class Blog {
     return result;
   }
 }
-
-
