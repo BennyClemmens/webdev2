@@ -1,0 +1,30 @@
+body {
+    padding: 20px;
+    font-family: consolas, monospace;
+}
+main{
+    display: flex;
+    justify-content: space-evenly;
+}
+p, .recipe{
+    padding-top: 5px;
+    padding-left: 10px;
+    width: 100%;
+}
+img.recipe {    
+    width: 200px;
+    margin-right: 5px;
+}
+img.star{
+    padding: 5px;
+}
+article.recipe{
+    margin: 1rem;
+    padding: 5px;
+    border: lightskyblue 2px solid;
+    border-radius: 5px;
+    box-shadow: gray 5px 5px 5px;
+}
+.checked {
+    color: orange;
+}

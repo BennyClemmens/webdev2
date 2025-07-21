@@ -1,0 +1,7 @@
+.hidden {
+  visibility: hidden;
+}
+
+.breedImage {
+  max-width: 30%;
+}
