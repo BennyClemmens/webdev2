@@ -1,4 +1,4 @@
-'use strict';
+"use strict";
 
 // const makeFunc = function () {
 //   const message = 'Sir Bob is still around ;-)';
@@ -18,8 +18,8 @@ const makeFunc = function (title) {
   };
   return displayName;
 };
-const misterDisplayFunction = makeFunc('Mister');
-const sirDisplayFunction = makeFunc('Sir');
+const misterDisplayFunction = makeFunc("Mister");
+const sirDisplayFunction = makeFunc("Sir");
 misterDisplayFunction();
 sirDisplayFunction();
 
@@ -32,11 +32,11 @@ const makeBtnclickHandler = function (btnId) {
   };
 };
 
-const initButtons = function () {
-  for (let i = 1; i <= 3; i++) {
-    document.getElementById('btn' + i).onclick = makeBtnclickHandler(i);
-  }
-};
+// const initButtons = function () {
+//   for (let i = 1; i <= 3; i++) {
+//     document.getElementById('btn' + i).onclick = makeBtnclickHandler(i);
+//   }
+// };
 
 // // example2 - met een anonymous function als event handler
 // const initButtons = function () {
@@ -47,13 +47,16 @@ const initButtons = function () {
 //   }
 // };
 
-// // example3 - zonder closures met event.target
-// const initButtons = function () {
-//   for (let i = 1; i <= 3; i++) {
-//     document.getElementById('btn' + i).onclick = function (event) {
-//       alert(`You clicked ${event.target.id}`);
-//     };
-//   }
-// };
+// example3 - zonder closures met event.target
+const initButtons = function () {
+  for (let i = 1; i <= 3; i++) {
+    document.getElementById("btn" + i).onclick = function (event) {
+      alert(`You clicked ${event.target.id}`);
+    };
+  }
+};
+
+//window.document.location.host = "benny";
+console.log(window);
 
 window.onload = initButtons;
