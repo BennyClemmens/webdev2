@@ -62,6 +62,17 @@ Oefening
 // Verwijder het eerste element en toon het
 // Voeg vooraan "rap" en "reggae" toe
 
+let stijlen = ["jazz", "blues"];
+console.log(stijlen);
+stijlen.push("rock-n-roll");
+console.log(stijlen);
+stijlen.splice(Math.floor(stijlen.length / 2), 1, "klassiek");
+console.log(stijlen);
+console.log(stijlen.shift()); // jazz
+console.log(stijlen);
+stijlen.unshift("rap", "reggae");
+console.log(stijlen); // ["rap", "reggae", "blues", "klassiek", "rock-n-roll"]
+
 /*
 Lussen
 */
@@ -107,7 +118,8 @@ console.log(splicedFruit); // ["orange", "pineapple", "strawberry", "blueberry",
 
 // De functie slice retourneert een nieuwe array waarbij alle items gekopieerd worden
 // vanaf de startindex tot (niet tot en met) de eindindex
-console.log(fruit.slice(2, 5)); // ["strawberry", "blueberry", "melon"]
+console.log(fruit.slice(2, 5)); // ["kiwi", "melon"]
+console.log(splicedFruit.slice(2, 5)); // ["strawberry", "blueberry", "melon"]
 
 // Zoeken in een array
 // De functie indexOf(item, from) zoekt naar item startend van positie from (default waarde 0)

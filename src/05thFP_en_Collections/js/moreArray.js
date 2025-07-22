@@ -75,10 +75,13 @@ fruit = ["orange", "pear", "kiwi", "melon"];
 fruit.sort((a, b) => a.length - b.length);
 console.log(fruit); // ["pear", "kiwi", "melon", "orange"]
 
+fruit = ["orange", "pear", "kiwi", "melon"];
+console.log(fruit.toSorted((a, b) => a.length - b.length)); // ["pear", "kiwi", "melon", "orange"]
+
 // Je kan kan ook gebruik maken van toSorted() die een coyping versie is van sort()
 // We sorteren het fruit nu op aantal letters en bij gelijk aantal letters wordt alfabetisch gesorteerd
 fruit = ["orange", "pear", "kiwi", "melon"];
-const sortedFruit = fruit.toSorted((a, b) => {
+let sortedFruit = fruit.toSorted((a, b) => {
   const compareLength = a.length - b.length;
   if (compareLength === 0)
     if (a < b) return -1;
@@ -88,3 +91,10 @@ const sortedFruit = fruit.toSorted((a, b) => {
 });
 
 console.log(sortedFruit); // ["kiwi", "pear", "melon", "orange"];
+
+fruit = ["orange", "pear", "kiwi", "melon"];
+sortedFruit = fruit.toSorted((a, b) =>
+  a.length === b.length ? a.localeCompare(b) : a.length - b.length
+);
+
+console.log(sortedFruit);
