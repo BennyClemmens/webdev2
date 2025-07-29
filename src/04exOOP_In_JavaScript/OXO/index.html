@@ -1,5 +1,4 @@
 <html>
-
   <head>
     <title></title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
@@ -9,20 +8,31 @@
   <body>
     <h1>OXO</h1>
     <div>
-      <img id="11" alt="blanco" />
-      <img id="12" alt="blanco" />
-      <img id="13" alt="blanco" />
+      <img id="11" class="vakje" alt="blanco" />
+      <img id="12" class="vakje" alt="blanco" />
+      <img id="13" class="vakje" alt="blanco" />
       <br />
-      <img id="21" alt="blanco" />
-      <img id="22" alt="blanco" />
-      <img id="23" alt="blanco" />
+      <img id="21" class="vakje" alt="blanco" />
+      <img id="22" class="vakje" alt="blanco" />
+      <img id="23" class="vakje" alt="blanco" />
       <br />
-      <img id="31" alt="blanco" />
-      <img id="32" alt="blanco" />
-      <img id="33" alt="blanco" />
+      <img id="31" class="vakje" alt="blanco" />
+      <img id="32" class="vakje" alt="blanco" />
+      <img id="33" class="vakje" alt="blanco" />
       <br />
     </div>
     <div id="message"></div>
-  </body>
 
+    <!-- <script>
+      Array.from(document.getElementsByClassName("vakje")).forEach((vakje) => {
+        vakje.src = "./images/wit.png";
+      });
+    </script> -->
+
+    <!--
+    2. Wijzig index.html zodat het script index.js geladen wordt wanneer de pagina in de browser geladen wordt.
+    Geef aan dat index.js een module is.
+    -->
+    <script type="module" src="./js/index.js"></script>
+  </body>
 </html>
