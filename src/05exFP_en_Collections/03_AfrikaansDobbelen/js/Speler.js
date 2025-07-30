@@ -1,4 +1,4 @@
-import Dobbelsteen from './dobbelsteen.js';
+import Dobbelsteen from "./dobbelsteen.js";
 
 export default class Speler {
   static #aantalDobbelstenen = 5;
@@ -32,10 +32,15 @@ export default class Speler {
   }
 
   speel() {
-    for (const d of this.dobbelstenen) {
-      d.rol();
-      if (d.aantalOgen === 1) this.#score += 100;
-      else if (d.aantalOgen === 5) this.#score += 50;
-    }
+    this.#dobbelstenen.forEach((dobbelsteen) => dobbelsteen.rol());
+    this.#score = this.#dobbelstenen.reduce(
+      (previousValue, dobbelsteen) =>
+        dobbelsteen.aantalOgen === 1
+          ? previousValue + 100
+          : dobbelsteen.aantalOgen === 5
+          ? previousValue + 50
+          : previousValue,
+      this.score
+    );
   }
 }

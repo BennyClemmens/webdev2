@@ -62,12 +62,13 @@ const people = [
 ];
 // Array.prototype.filter()
 // 1. Filter the list of inventors for those who were born in the 1500's
-const fifteen = undefined;
+const fifteen = inventors.filter(({ year }) => year >= 1500 && year < 1600);
 console.table(fifteen);
 
 // Array.prototype.map()
 // 2. Give us an array of the inventor first and last names
-const fullNames = undefined;
+const fullNames = inventors.map(({ first, last }) => `${first} ${last}`);
+console.table(fullNames);
 console.log(fullNames);
 
 // Array.prototype.sort()
@@ -79,21 +80,40 @@ console.log(fullNames);
 //     return -1;
 //   }
 // });
-const ordered = undefined;
+const ordered = inventors.toSorted((a, b) => a.year - b.year);
 console.table(ordered);
 
 // Array.prototype.reduce()
 // 4. How many years did all the inventors live?
-const totalYears = undefined;
+const totalYears = inventors.reduce(
+  (acc, { passed, year }) => acc + (passed - year),
+  0
+);
 console.log(totalYears);
 
 // 5. Sort the inventors by years lived
-const oldest = undefined;
+const oldest = inventors.toSorted((firstInventor, secondInventor) => {
+  const secondAge = secondInventor.passed - secondInventor.year;
+  const firstAge = firstInventor.passed - firstInventor.year;
+  return secondAge - firstAge;
+});
 console.table(oldest);
+//console.table(inventors);
 
 // 6. Sort Exercise
 // Create a copy of the array people which holds people alphabetically by last name
-const alpha = undefined;
+
+// const alpha = people.toSorted((lastOne, nextOne) => {
+//   const [aLast] = lastOne.split(", ");
+//   const [bLast] = nextOne.split(", ");
+//   return aLast.localeCompare(bLast);
+// });
+
+const alpha = people.toSorted((prev, next) => {
+  const [prevLastname] = prev.split(", ");
+  const [nextLastname] = next.split(", ");
+  return prevLastname.localeCompare(nextLastname); // is eigenlijk al zo gerangschikt
+});
 console.log(alpha);
 
 // 7. Reduce Exercise
@@ -126,8 +146,24 @@ const data = [
   "truck",
   "pogostick",
 ];
-const transportation = undefined;
-console.log(transportation);
+const transportation = function (obj, item) {
+  if (!obj[item]) {
+    obj[item] = 0;
+  }
+  obj[item]++;
+  return obj;
+};
+const result = data.reduce(transportation, {});
+console.log(result);
+//console.log(transportation);
+
+const transportationBis = function (obj, item) {
+  obj[item] = obj[item] ?? 0;
+  obj[item]++;
+  return obj;
+};
+const resultBis = data.reduce(transportationBis, {});
+console.log(resultBis);
 
 const family = [
   { name: "Wes", year: 1988 },
@@ -152,20 +188,36 @@ const comments = [
 //     return true;
 //   }
 // });
-const isAdult = undefined;
+const isAdult = family.some(
+  (person) => new Date().getFullYear() - person.year >= 19
+);
 console.log({ isAdult });
 // Array.prototype.every() // is everyone 19?
-const allAdults = undefined;
+const allAdults = family.every(
+  (person) => new Date().getFullYear() - person.year >= 19
+);
 console.log({ allAdults });
+
+const adults = family.filter(
+  (person) => new Date().getFullYear() - person.year >= 19
+);
+console.log(adults);
 
 //9. Array.prototype.find()
 // Find is like filter, but instead returns just the one you are looking for
 // find the comment with the ID of 823423
-const comment = undefined;
+const comment =
+  comments.find((comment) => comment.id === 823423) || "Comment not found";
 console.log(comment);
 
 //10.  Array.prototype.findIndex()
 // Find the comment with this ID
 // delete the comment with the ID of 823423
-const index = undefined;
+console.table(comments);
+const index = comments.findIndex((comment) => comment.id === 823423);
 console.log(index);
+
+if (index !== -1) {
+  comments.splice(index, 1);
+}
+console.table(comments);
