@@ -1,18 +1,53 @@
+import GefietsteKilometers from "./GefietsteKilometers.js";
 export default class GefietsteKilometersRepository {
   #repository = [];
   constructor() {
     this.#opvullen();
   }
 
+  /*
+Implementeer de functie geefJaren in GefietsteKilometersRepository
+De functie geefJaren retourneert een array van de unieke jaren die bestaan binnen GefietsteKilometersRepository
+*/
   geefJaren() {
-    return [];
+    const jaren = this.#repository.map((item) => item.jaar);
+    return [...new Set(jaren)];
+  }
+  /*
+Implementeer de functie geefGefietsteKilometersVoorEenJaar in GefietsteKilometersRepository
+De functie retourneert een array van de gefietste kilometers voor het opgegeven jaar (parameter)
+*/
+  geefGefietsteKilometersVoorEenJaar(jaar) {
+    const item = this.#repository.find((item) => item.jaar === jaar); // == ipv === if not parseInt!
+    return item ? item.aantalKilometers : [];
+  }
+  /*
+Implementeer de functie wijzigGefietsteKilometers in GefietsteKilometersRepository
+De functie wijzigGefietsteKilometers vervangt de bestaande array aantalKilometers voor het opgegeven jaar (parameter) door de array waarden (parameter)
+*/
+  wijzigGefietsteKilometers(jaar, waarden) {
+    const item = this.#repository.find((item) => item.jaar === jaar); // == ipv === !
+    if (item) {
+      item.aantalKilometers = waarden;
+    }
+    console.log(this.geefGefietsteKilometersVoorEenJaar(jaar));
   }
 
-  geefGefietsteKilometersVoorEenJaar(jaar) {}
+  /*
+Implementeer de functie voegToe in GefietsteKilometersRepository
+De functie voegToe voeg een nieuw object GefietsteKilometers toe aan GefietsteKilometersRepository
+*/
 
-  wijzigGefietsteKilometers(jaar, waarden) {}
-
-  #voegToe(jaar, aantalKilometers, bedragPerKilometer) {}
+  #voegToe(jaar, aantalKilometers, bedragPerKilometer) {
+    //const item = this.#repository.find((item) => item.jaar === jaar);
+    //if (item) {
+    //  item.kilometers.push(aantalKilometers);
+    //} else {
+    this.#repository.push(
+      new GefietsteKilometers(jaar, aantalKilometers, bedragPerKilometer)
+    );
+    //}
+  }
 
   #opvullen() {
     const huidigJaar = new Date().getFullYear();

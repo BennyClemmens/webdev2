@@ -1,3 +1,7 @@
+/*
+De klasse Milestone is deels gegeven.
+Je dient nog enkel de methode toJSON aan te vullen in het Milestone.js bestand.
+*/
 export default class Milestone {
   #name;
   #date;
@@ -26,5 +30,11 @@ export default class Milestone {
     const days = Math.ceil((this.#date - today) / ONE_DAY_IN_MILLSECONDS);
     return days;
   }
-  toJSON() {}
+  toJSON() {
+    return {
+      name: this.#name,
+      date: this.#date,
+      // date: this.#date.toISOString(),
+    };
+  }
 }

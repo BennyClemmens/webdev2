@@ -1,11 +1,11 @@
-'use strict';
+"use strict";
 class Sticky {
   #id;
   #note;
   #color;
 
-  constructor(note, color) {
-    this.#id = 'sticky_' + Math.random().toString(36).substring(2);
+  constructor(note, color, id) {
+    this.#id = id || "sticky_" + Math.random().toString(36).substring(2);
     this.note = note;
     this.color = color;
   }
@@ -50,22 +50,55 @@ class StickiesComponent {
     return this.#stickies;
   }
 
-  #addSticky(note, color) { }
-  #deleteSticky(key) { }
-  #clearStickies() { }
-  #getStickiesFromStorage() { }
-  #setStickiesInStorage() { }
+  #addSticky(note, color) {
+    this.#stickies.push(new Sticky(note, color));
+    this.#setStickiesInStorage();
+    this.#toHTML();
+  }
+
+  #deleteSticky(key) {
+    this.#stickies = this.#stickies.filter((sticky) => sticky.id !== key);
+    this.#setStickiesInStorage();
+    this.#toHTML();
+  }
+  #clearStickies() {
+    this.#stickies = [];
+    // this.#storage.removeItem("stickies");
+    this.#setStickiesInStorage();
+    this.#toHTML();
+  }
+  #getStickiesFromStorage() {
+    this.#stickies = [];
+    if (this.#storage.getItem("stickies")) {
+      this.#stickies = JSON.parse(this.#storage.getItem("stickies")).map(
+        (s) => {
+          return new Sticky(s.note, s.color, s.id);
+        }
+      );
+    }
+  }
+
+  #setStickiesInStorage() {
+    try {
+      this.storage.setItem("stickies", JSON.stringify(this.stickies));
+    } catch (error) {
+      if (error === QUOTA_EXCEEDED_ERR) {
+        alert("Storage limit exceeded. Please clear some stickies.");
+      }
+    }
+  }
+
   #toHTML() {
-    document.getElementById('stickies').innerHTML = '';
+    document.getElementById("stickies").innerHTML = "";
     this.#stickies.map((sticky) => {
-      let li = document.createElement('li');
-      li.setAttribute('id', sticky.id);
+      let li = document.createElement("li");
+      li.setAttribute("id", sticky.id);
       li.style.backgroundColor = sticky.color;
-      const span = document.createElement('span');
-      span.className = 'sticky';
+      const span = document.createElement("span");
+      span.className = "sticky";
       span.appendChild(document.createTextNode(sticky.note));
       li.appendChild(span);
-      document.getElementById('stickies').appendChild(li);
+      document.getElementById("stickies").appendChild(li);
       li.onclick = () => {
         this.#deleteSticky(li.id);
       };
@@ -73,21 +106,21 @@ class StickiesComponent {
   }
 
   #initializeEventHandlers() {
-    const addButton = document.getElementById('add');
-    const clearButton = document.getElementById('clear');
+    const addButton = document.getElementById("add");
+    const clearButton = document.getElementById("clear");
 
     if (!this.#storage) {
-      alert('browser ondersteunt geen storage');
+      alert("browser ondersteunt geen storage");
       addButton.disabled = true;
       clearButton.disabled = true;
       return;
     }
 
     addButton.onclick = () => {
-      const noteText = document.getElementById('notetext');
-      const noteColor = document.getElementById('notecolor');
+      const noteText = document.getElementById("notetext");
+      const noteColor = document.getElementById("notecolor");
       this.#addSticky(noteText.value, noteColor.value);
-      noteText.value = '';
+      noteText.value = "";
     };
 
     clearButton.onclick = () => {
@@ -101,4 +134,3 @@ function init() {
 }
 
 window.onload = init;
-
