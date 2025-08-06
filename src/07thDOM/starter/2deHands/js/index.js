@@ -1,4 +1,4 @@
-import ProductenComponent from './ProductenComponent.js';
+import ProductenComponent from "./ProductenComponent.js";
 
 const init = function () {
   const component = new ProductenComponent();

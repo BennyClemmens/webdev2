@@ -1,4 +1,4 @@
-import BoekenRepository from './BoekenRepository.js';
+import BoekenRepository from "./BoekenRepository.js";
 
 export default class BoekenComponent {
   #boekenRepository;
@@ -25,12 +25,12 @@ export default class BoekenComponent {
       this.#boekenRepository.boeken.length / this.#aantalBoekenPerPagina
     );
 
-    document.getElementById('vorige').onclick = () => {
+    document.getElementById("vorige").onclick = () => {
       this.#actievePagina = Math.max(1, this.#actievePagina - 1);
       this.#boekenToHtml();
     };
 
-    document.getElementById('volgende').onclick = () => {
+    document.getElementById("volgende").onclick = () => {
       this.#actievePagina = Math.min(aantalPaginas, this.#actievePagina + 1);
       this.#boekenToHtml();
     };
@@ -42,20 +42,42 @@ export default class BoekenComponent {
       (this.#actievePagina - 1) * this.#aantalBoekenPerPagina,
       this.#aantalBoekenPerPagina
     );
-    const boekenDiv = document.getElementById('boeken');
-    boekenDiv.innerHTML = '';
-    const row = document.createElement('div');
-    row.className = 'row';
+    const boekenDiv = document.getElementById("boeken");
+    boekenDiv.innerHTML = "";
+    const row = document.createElement("div");
+    row.className = "row";
 
     // paginanummer/aantalpagina's bijwerken
     const aantalPaginas = Math.ceil(
       this.#boekenRepository.boeken.length / this.#aantalBoekenPerPagina
     );
-    document.getElementById('paginanummer').textContent = `${
+    document.getElementById("paginanummer").textContent = `${
       this.#actievePagina
     }/${aantalPaginas}`;
 
     // voor elk boek (te implementeren)
+    boeken.forEach((boek) => {
+      const col = document.createElement("div");
+      col.className = "col-md-2 col-sm-4";
+      const divThumbnail = document.createElement("div");
+      const gelezen = this.#gelezenBoeken.has(boek.id);
+      divThumbnail.className = `thumbnail ${gelezen ? "" : "not"}read`;
+      const imgEl = document.createElement("img");
+      divThumbnail.onclick = () => {
+        if (!this.#gelezenBoeken.has(boek.id)) {
+          this.#voegGelezenBoekToe(boek.id);
+        }
+        this.#setGelezenBoekenInStorage();
+        this.#boekenToHtml(); // herlaad de boeken om de wijzigingen te tonen
+      };
+      imgEl.src = `images/${boek.afbeelding}`;
+      imgEl.alt = boek.titel;
+      imgEl.id = boek.id;
+
+      divThumbnail.appendChild(imgEl);
+      col.appendChild(divThumbnail);
+      row.appendChild(col);
+    });
 
     boekenDiv.appendChild(row);
   }
@@ -66,8 +88,17 @@ export default class BoekenComponent {
   }
 
   // getGelezenBoekenFromStorage haalt de lijst met id's van gelezen boeken op uit de storage
-  #getGelezenBoekenFromStorage() {}
+  #getGelezenBoekenFromStorage() {
+    this.#gelezenBoeken = localStorage.getItem("gelezenBoeken")
+      ? new Set(JSON.parse(localStorage.getItem("gelezenBoeken")))
+      : new Set();
+  }
 
   // setGelezenBoekenInStorage plaatst de lijst van id's van gelezen boeken in de storage
-  #setGelezenBoekenInStorage() {}
+  #setGelezenBoekenInStorage() {
+    localStorage.setItem(
+      "gelezenBoeken",
+      JSON.stringify([...this.#gelezenBoeken])
+    );
+  }
 }

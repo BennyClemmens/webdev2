@@ -1,5 +1,5 @@
-import Uitgave from './Uitgave.js';
-import { uitgaven } from './uitgavenArray.js';
+import Uitgave from "./Uitgave.js";
+import { uitgaven } from "./uitgavenArray.js";
 
 export default class UitgavenRepository {
   #uitgaven = []; // array met Uitgave-objecten
@@ -11,7 +11,11 @@ export default class UitgavenRepository {
     return this.#uitgaven;
   }
 
-  #voegUitgaveToe(id, datum, bedrag, omschrijving, categorie) {}
+  #voegUitgaveToe(id, datum, bedrag, omschrijving, categorie) {
+    this.#uitgaven.push(
+      new Uitgave(id, datum, bedrag, omschrijving, categorie)
+    );
+  }
 
   #uitgavenOpvullen() {
     uitgaven.forEach(([id, datum, bedrag, omschrijving, categorie]) =>
@@ -19,9 +23,22 @@ export default class UitgavenRepository {
     );
   }
 
-  geefCategorieen() {}
+  geefCategorieen() {
+    return [
+      ...new Set(this.#uitgaven.map((uitgave) => uitgave.categorie)),
+    ].sort();
+  }
 
-  totaalBedragUitgaven() {}
+  totaalBedragUitgaven() {
+    return this.#uitgaven.reduce(
+      (totaal, uitgave) => totaal + uitgave.bedrag,
+      0
+    );
+  }
 
-  uitgavenPerCategorie(categorie) {}
+  uitgavenPerCategorie(categorie) {
+    return this.#uitgaven
+      .filter((uitgave) => uitgave.categorie === categorie)
+      .reduce((totaal, uitgave) => totaal + uitgave.bedrag, 0);
+  }
 }
