@@ -11,7 +11,8 @@
     <h1>6a-async-await-module</h1>
     <p>Druk op <kbd>&lt;Ctrl+Shift+j&gt;</kbd> om de console weer te geven.</p>
     <script type="module">
-      const response = await fetch('../data/data1.json');
+      // <script>
+      const response = await fetch("../data/data1.json");
       const jsonResponse = await response.json();
       console.log(jsonResponse);
     </script>

@@ -1,6 +1,6 @@
-import { Film } from './film.js';
+import Film from "./Film.js";
 
-export class FilmRepository {
+export default class FilmRepository {
   #films = [];
 
   get films() {
@@ -8,13 +8,26 @@ export class FilmRepository {
   }
 
   addFilms(arrFilms) {
-    // TODO
+    // DONE
+    this.#films = arrFilms.map(
+      (json) =>
+        new Film(json.imdbID, json.Title, json.Type, json.Poster, json.Year)
+    );
+    console.log(this.#films);
   }
 
   addDetail(id, objDetail) {
+    this.getFilmById(id).setDetail(
+      objDetail.Runtime,
+      objDetail.Genre,
+      objDetail.Director,
+      objDetail.Actors,
+      objDetail.Plot,
+      objDetail.Language
+    );
     // TODO
   }
   getFilmById(id) {
-    // TODO
+    return this.#films.find((film) => film.id === id);
   }
 }

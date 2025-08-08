@@ -1,4 +1,4 @@
-export class Film {
+export default class Film {
   #id;
   #title;
   #poster;
@@ -12,14 +12,24 @@ export class Film {
     this.#type = type;
     this.#year = year;
     this.#detail = {
-      time: '',
-      genre: '',
-      director: '',
-      actors: '',
-      plot: '',
-      language: '',
+      time: "",
+      genre: "",
+      director: "",
+      actors: "",
+      plot: "",
+      language: "",
     };
   }
+
+  setDetail(time, genre, director, actors, plot, language) {
+    this.#detail.time = time; //Runtime
+    this.#detail.genre = genre;
+    this.#detail.director = director;
+    this.#detail.actors = actors;
+    this.#detail.plot = plot;
+    this.#detail.language = language;
+  }
+
   get id() {
     return this.#id;
   }
@@ -36,9 +46,9 @@ export class Film {
     return this.#poster;
   }
   set poster(value) {
-    value !== 'N/A'
+    value !== "N/A"
       ? (this.#poster = value)
-      : (this.#poster = 'images/No_image_available.svg');
+      : (this.#poster = "images/No_image_available.svg");
   }
 
   get year() {

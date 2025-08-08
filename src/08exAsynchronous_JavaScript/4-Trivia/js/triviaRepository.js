@@ -1,4 +1,4 @@
-import Trivia from './trivia.js';
+import Trivia from "./trivia.js";
 
 export default class TriviaRepository {
   #trivias = [];
@@ -18,13 +18,39 @@ export default class TriviaRepository {
 
   // geeft de volgende trivia terug (werkt op basis van
   // het aantal reeds gegeven antwoorden).
-  get trivia() {}
+  get trivia() {
+    // if (this.#trivias.length === 0) return null;
+    return this.#trivias[this.numberOfAnswers];
+  }
 
-  get correctAnswers() {}
+  get correctAnswers() {
+    return this.#answers
+      .filter((answer) => Boolean(answer))
+      .reduce((count) => count + 1, 0);
+  }
 
-  addTrivias(dataObjects) {}
+  addTrivias(dataObjects) {
+    this.#trivias.push(
+      ...dataObjects.map(
+        (results) =>
+          new Trivia(
+            results.category,
+            results.difficulty,
+            results.question,
+            results.incorrect_answers.concat(results.correct_answer), //.toSorted(),
+            results.correct_answer
+          )
+      )
+    );
+  }
 
-  checkAnswer(answer) {}
+  checkAnswer(answer) {
+    const isCorrect = this.trivia.isCorrectAnswer(answer);
+    this.#answers.push(isCorrect);
+    return isCorrect;
+  }
 
-  checkEndGame() {}
+  checkEndGame() {
+    return this.numberOfAnswers === this.numberOfTrivias;
+  }
 }

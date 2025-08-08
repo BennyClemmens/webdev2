@@ -27,5 +27,7 @@ export default class Trivia {
   get correctAnswer() {
     return this.#correctAnswer;
   }
-  isCorrectAnswer(answer) {}
+  isCorrectAnswer(answer) {
+    return this.#correctAnswer === answer;
+  }
 }

@@ -11,16 +11,18 @@
     <h1>3b-fetch-text-promise</h1>
     <p>Druk op <kbd>&lt;Ctrl+Shift+j&gt;</kbd> om de console weer te geven.</p>
     <script type="module">
-      const fetchPromise = fetch('../data/part1.txt');
+      const fetchPromise = fetch("../data/part1.txt");
+      console.log(fetchPromise);
 
       fetchPromise.then((response) => {
         const textPromise = response.text();
         textPromise.then((text) => {
           console.log(text);
         });
+        // console.log("response.text:", response.text()); // een promise
       });
 
-      console.log('Started request...');
+      console.log("Started request...");
     </script>
   </body>
 </html>

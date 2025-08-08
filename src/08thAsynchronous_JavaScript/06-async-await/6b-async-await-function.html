@@ -11,9 +11,10 @@
     <h1>6b-async-await-function</h1>
     <p>Druk op <kbd>&lt;Ctrl+Shift+j&gt;</kbd> om de console weer te geven.</p>
     <script>
-      'use strict';
+      "use strict";
       async function getData1() {
-        const response = await fetch('../data/data1.json');
+        // function getData1() {
+        const response = await fetch("../data/data1.json");
         const jsonResponse = await response.json();
         console.log(jsonResponse);
       }

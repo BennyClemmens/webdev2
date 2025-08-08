@@ -13,31 +13,74 @@
       // in welke volgorde worden de console.log's
       // uitgevoerd?
 
+      console.log("16 Pre declaration of promise p");
+
       const p = new Promise((resolve, reject) => {
-        console.log('In promise');
+        console.log("19 Inside declaration of promise p, pre timeout");
         setTimeout(function () {
-          console.log('In setTimeout');
+          console.log(
+            "22 In setTimeout (inside promise p) after waiting 5seconds sending resolve 100"
+          );
           resolve(100);
-        }, 2000);
+        }, 30 * 1000); // 5 second delay
+        console.log("26 at the end of declaration of promise p");
       });
 
+      console.log("29 After declaration of promise");
+      console.log(`30 Het object p: ${p}`);
       console.log(p);
-      console.log('After promise');
+
+      console.log("33 Pre declaration of promise p2");
+      p.then((resolvewaarde) => {
+        console.log("35 test");
+        console.log(`36 The resultvalue is ${resolvewaarde}`);
+      });
 
       const p2 = p.then((resolvewaarde) => {
-        console.log(`The resultvalue is ${resolvewaarde}`);
+        console.log(
+          "37 Inside p2 = p.then, met andere woorden de p is resolved, de 5 seconden zijn voorbij"
+        );
+        console.log(
+          `40 The resultvalue is ${resolvewaarde} (zou 100 moeten zijn, want die werd in de resolve van de p gegeven in de promise)`
+        );
+        console.log(
+          "43 we gaan nu als return in deze p2 de resolvewaarde * 2 doen"
+        );
         return resolvewaarde * 2;
       });
 
+      console.log("48 after declaration of p2, p2.then nog niet opgeroepen");
+      console.log(`49 Het object p2: ${p2}`);
+      console.log(p2);
+
       p2.then((waarde) => {
-        p.then((resolvewaarde) =>
-          console.log(`The resultvalue is ${resolvewaarde}`)
-        );
-        console.log('Endvalue: ', waarde);
+        console.log("53 in p2.then, pre p.then");
+        console.log("54 waarde: ", waarde);
+        p.then((resolvewaarde) => {
+          // nu reeds bekend
+          console.log("56 in p.then in p2.then");
+          console.log(`57 The resultvalue is ${resolvewaarde}`);
+        });
+        console.log("58 Endvalue: ", waarde);
       });
 
-      console.log('End script');
-      console.log('----------');
+      console.log("62 End script");
+      console.log("63 ----------");
+
+      p.then((resolvewaarde) => {
+        console.log("66 test");
+        console.log(`67 The resultvalue is ${resolvewaarde}`);
+      });
+
+      p.then((resolvewaarde) => {
+        console.log("72 test");
+        console.log(`73 The resultvalue is ${resolvewaarde}`);
+      });
+
+      p.then((resolvewaarde) => {
+        console.log("77 test");
+        console.log(`78 The resultvalue is ${resolvewaarde}`);
+      });
     </script>
   </body>
 </html>

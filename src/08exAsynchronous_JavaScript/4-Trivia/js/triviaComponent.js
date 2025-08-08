@@ -1,4 +1,4 @@
-import TriviaRepository from './triviaRepository.js';
+import TriviaRepository from "./triviaRepository.js";
 
 export default class TriviaComponent {
   #triviaRepository;
@@ -6,20 +6,36 @@ export default class TriviaComponent {
 
   constructor() {
     this.#triviaRepository = new TriviaRepository();
-    this.#url = 'https://opentdb.com/api.php?amount=10'; //'./data/exampleResponseApi.json'
+    this.#url = "https://opentdb.com/api.php?amount=3"; //'./data/exampleResponseApi.json'
     this.#initialiseHTML();
   }
 
-  #initialiseHTML() {
-    
+  async #initialiseHTML() {
+    await this.#getData();
+    this.#showTrivia();
   }
-  #getData() {
-    
+
+  async #getData() {
+    try {
+      const response = await fetch(this.#url);
+      if (!response.ok)
+        throw new Error(`HTTP error! status: ${response.status}`);
+      const data = await response.json();
+      if (data.response_code)
+        // response_code 0 betekent dat er geen fouten zijn
+        throw new Error("No trivia data found.");
+      this.#triviaRepository.addTrivias(data.results);
+      console.log(this.#triviaRepository.trivias);
+    } catch (error) {
+      document.getElementById(
+        "answer"
+      ).innerText = `Error fetching trivia data. Please try again later: ${error.message}`;
+    }
   }
 
   #showTrivia() {
-    const triviaHTML = document.getElementById('trivia');
-    triviaHTML.innerHTML = '';
+    const triviaHTML = document.getElementById("trivia");
+    triviaHTML.innerHTML = "";
 
     // de volgende vraag
     const trivia = this.#triviaRepository.trivia;
@@ -28,10 +44,13 @@ export default class TriviaComponent {
     // #question opvullen:
     // geeft het aantal reeds gestelde vragen
     // op het totaal aantal vragen weer.
+    document.getElementById("question").innerText = `Question ${
+      this.#triviaRepository.numberOfAnswers + 1
+    } of ${this.#triviaRepository.numberOfTrivias}`;
 
     // div met de vraag aanmaken en opvullen (sectie met blauwe tekst)
     triviaHTML.insertAdjacentHTML(
-      'beforeend',
+      "beforeend",
       `<div class="card-content">
 				<span>${trivia.category} - Difficulty: ${trivia.difficulty}</span><br>
 				<span>${trivia.question}</span>
@@ -39,13 +58,13 @@ export default class TriviaComponent {
     );
 
     // Mogelijke antwoorden afbeelden
-    const divCA = document.createElement('div');
-    divCA.className = 'card-action';
-    const divRow = document.createElement('div');
-    divRow.className = 'row';
+    const divCA = document.createElement("div");
+    divCA.className = "card-action";
+    const divRow = document.createElement("div");
+    divRow.className = "row";
     trivia.answers.forEach((a) => {
       divRow.insertAdjacentHTML(
-        'beforeend',
+        "beforeend",
         `<div class="col s12 m6">
 					<p>
 						<label>
@@ -62,7 +81,7 @@ export default class TriviaComponent {
 
     // sectie met knop SUBMIT ANSWER en NEXT QUESTION
     triviaHTML.insertAdjacentHTML(
-      'beforeend',
+      "beforeend",
       `<div class="card-action">
 					<button id="send" class="btn-small blue darken-2">Submit answer<i class="material-icons right">send</i></button>
           <button id="next" class="btn-small blue darken-2">Next Question</button>
@@ -70,8 +89,8 @@ export default class TriviaComponent {
     );
 
     // send-knop weergeven
-    document.getElementById('send').classList.remove('hide');
-    document.getElementById('next').classList.add('hide');
+    document.getElementById("send").classList.remove("hide");
+    document.getElementById("next").classList.add("hide");
 
     // antwoorden inschakelen
     for (const radio of document.querySelectorAll('input[name="group"]')) {
@@ -79,8 +98,9 @@ export default class TriviaComponent {
     }
 
     // eventhandlers instellen
-    document.getElementById('send').onclick = () => this.#sendClickHandler(trivia);
-    document.getElementById('next').onclick = () => this.#nextClickHander();
+    document.getElementById("send").onclick = () =>
+      this.#sendClickHandler(trivia);
+    document.getElementById("next").onclick = () => this.#nextClickHander();
   }
 
   #sendClickHandler(trivia) {
@@ -94,28 +114,42 @@ export default class TriviaComponent {
 
     // TODO
     // controleren of het antwoord correct was
+    console.log(
+      "Selected answer:",
+      document.querySelector('input[name="group"]:checked').value
+    );
+
+    const wasCorrect = this.#triviaRepository.checkAnswer(
+      document.querySelector('input[name="group"]:checked').value
+    );
+    console.log(wasCorrect);
 
     // TODO
     // aantal correcte antwoorden op het totaal aantal antwoorden
+    document.getElementById("correct").innerText = `Correct answers: ${
+      this.#triviaRepository.correctAnswers
+    }/${this.#triviaRepository.numberOfAnswers}`;
 
     // TODO
     // tonen van het correcte antwoord
+    document.getElementById(
+      "answer"
+    ).innerHTML = `The correcte answer is: <span class="bold">${trivia.correctAnswer}</span>`;
 
     // next-knop weergeven
-    document.getElementById('send').classList.add('hide');
-    document.getElementById('next').classList.remove('hide');
+    document.getElementById("send").classList.add("hide");
+    document.getElementById("next").classList.remove("hide");
 
     // als het spel beëindigd is
     if (this.#triviaRepository.checkEndGame()) {
       // next-knop uitschakelen
-      document.getElementById('next').classList.add('disabled');
+      document.getElementById("next").classList.add("disabled");
     }
   }
   #nextClickHander() {
     // antwoord wissen
-    document.getElementById('answer').innerHTML = '';
+    document.getElementById("answer").innerHTML = "";
     // volgende vraag afbeelden
     this.#showTrivia();
   }
 }
-
